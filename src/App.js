@@ -24,7 +24,7 @@ function App() {
 		var top_sel = document.getElementById('topic_val').value;
 		player = document.getElementById('name').value;
 		g_sw(<Spinner animation="border" variant="warning" />)
-		await fetch('https://opentdb.com/api.php?amount=10&category=' + top_sel + '&difficulty=' + dif_sel + '&type=multiple')
+		await fetch('https://opentdb.com/api.php?amount=10&category=' + top_sel + '&difficulty=' + dif_sel + '&type=multiple&encode=url3986')
 			.then(res => res.json())
 			.then(data => { q_data = data.results; })
 		game(q_data, count_q);
@@ -72,20 +72,33 @@ function App() {
 
 		//SEGREGATING DATA(ARRANGING WRONG AND RIGHT ANSWER RANDOMLY)
 
+		/*function cnvt(str) {
+			if (str && typeof str === 'string') {
+				// strip script/html tags
+				str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+				str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+				element.innerHTML = str;
+				str = element.textContent;
+				element.textContent = '';
+			}
+
+			return str;
+		}*/
+
 
 		var data_q = [];
 		var corr_place = Math.floor(Math.random() * 4);
 		var count = 0;
 		for (var j = 0; j < 4; j++) {
 			if (j !== corr_place) {
-				data_q.push(questions[counter].incorrect_answers[count])
+				data_q.push(decodeURIComponent(questions[counter].incorrect_answers[count]))
 				count++;
 			}
 			else {
-				data_q.push(questions[counter].correct_answer);
+				data_q.push(decodeURIComponent(questions[counter].correct_answer));
 			}
 		}
-		corr_ans = questions[counter].correct_answer;
+		corr_ans = decodeURIComponent(questions[counter].correct_answer);
 
 
 
@@ -94,11 +107,11 @@ function App() {
 
 		g_sw(<Game
 			p_name={player}
-			q_quiz={questions[counter].question}
-			a_1={data_q[0]}
-			a_2={data_q[1]}
-			a_3={data_q[2]}
-			a_4={data_q[3]}
+			q_quiz={decodeURIComponent(questions[counter].question)}
+			a_1={decodeURIComponent(data_q[0])}
+			a_2={decodeURIComponent(data_q[1])}
+			a_3={decodeURIComponent(data_q[2])}
+			a_4={decodeURIComponent(data_q[3])}
 			chk_ans1={() => { chk_ans1() }}
 			chk_ans2={() => { chk_ans2() }}
 			chk_ans3={() => { chk_ans3() }}
@@ -115,7 +128,7 @@ function App() {
 			key={key}
 			duration={10}
 			colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-			onComplete={() => {res()}}
+			onComplete={() => { res() }}
 		>
 			{renderTime}
 		</CountdownCircleTimer>)
