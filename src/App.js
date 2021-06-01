@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import Game from './game'
 import Score from './scoreboard'
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import './css/quiz.css'
+import './css/design.css'
 
 function App() {
 	var player = null
@@ -13,7 +13,6 @@ function App() {
 	var count_q = 0;
 	var stat = 0;
 	var [g_ini, g_sw] = useState(<Intro play_f={() => { show_quizes() }} />)
-	var [clock, clockup] = useState(null);
 	var key = -1;
 
 	//EXTRACT THE VALUES FROM FRONTEND AND FETCH DATA FROM API ACCORDINGLY
@@ -23,7 +22,7 @@ function App() {
 		var dif_sel = document.getElementById('diff_val').value;
 		var top_sel = document.getElementById('topic_val').value;
 		player = document.getElementById('name').value;
-		g_sw(<Spinner animation="border" variant="warning" />)
+		g_sw(<Spinner className="spinner" animation="border" variant="danger" style = {{width:"200px", height:"200px"}} />)
 		await fetch('https://opentdb.com/api.php?amount=10&category=' + top_sel + '&difficulty=' + dif_sel + '&type=multiple&encode=url3986')
 			.then(res => res.json())
 			.then(data => { q_data = data.results; })
@@ -34,12 +33,10 @@ function App() {
 	//CHECK THE RESULT AFTER ALL THE 10 QUESTIONS ATTENDED
 
 	var res = (answer) => {
-		console.log("rendered")
 		if (corr_ans === answer) {
 			stat += 1;
 		}
 		if (count_q === 9) {
-			clockup(null);
 			result();
 		}
 		else {
@@ -56,7 +53,7 @@ function App() {
 		}
 		else {
 			return (
-				<div className="value">{remainingTime}</div>
+				<div className="value" style = {{fontSize:"60px",fontWeight:"bolder"}}>{remainingTime}</div>
 			);
 		}
 	};
@@ -72,18 +69,6 @@ function App() {
 
 		//SEGREGATING DATA(ARRANGING WRONG AND RIGHT ANSWER RANDOMLY)
 
-		/*function cnvt(str) {
-			if (str && typeof str === 'string') {
-				// strip script/html tags
-				str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-				str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-				element.innerHTML = str;
-				str = element.textContent;
-				element.textContent = '';
-			}
-
-			return str;
-		}*/
 
 
 		var data_q = [];
@@ -104,8 +89,10 @@ function App() {
 
 		//RENDER THE GAME COMPONENT
 
+		key += 1
 
-		g_sw(<Game
+		g_sw(
+		<div><Game
 			p_name={player}
 			q_quiz={decodeURIComponent(questions[counter].question)}
 			a_1={decodeURIComponent(data_q[0])}
@@ -116,22 +103,25 @@ function App() {
 			chk_ans2={() => { chk_ans2() }}
 			chk_ans3={() => { chk_ans3() }}
 			chk_ans4={() => { chk_ans4() }}
-		/>)
+		/>
+
+		<CountdownCircleTimer
+		    size ={145}
+			isPlaying
+			key={key}
+			duration={30}
+			colors={[["#66FF66", 0.33], ["#FFEB00", 0.33], ["#FD0E35"]]}
+			onComplete={() => { res() }}
+		>
+			{renderTime}
+		</CountdownCircleTimer></div>
+		)
 
 		//TIMER
 
 
-		key += 1
+		
 
-		clockup(<CountdownCircleTimer
-			isPlaying
-			key={key}
-			duration={10}
-			colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-			onComplete={() => { res() }}
-		>
-			{renderTime}
-		</CountdownCircleTimer>)
 
 
 
@@ -203,7 +193,6 @@ function App() {
 
 	return (
 		<div className="App">
-			{clock}
 			{g_ini}
 		</div>
 	);
