@@ -7,7 +7,6 @@ body {
     height: 100%;
     text-align: center;
     margin: 0;
-    overflow: auto;
 }
 
 input{
@@ -32,7 +31,7 @@ p {
     background-size: cover;
 
     color: black;
-    font-size: 35px;
+    font-size: 1.8vw;
     
     font-family: 'Patrick Hand', cursive;     /*'Press Start 2P', cursive;*/
 }
@@ -86,13 +85,15 @@ p {
 }
 
 .innerbg{
+    position: relative;
     margin-top: 8%;
     border-radius: 8px 8px 8px 8px;
     background-color: rgba(241, 241, 206,0.4);
-    height: 75%;
-    width: 75%;
-    margin-left: 12.5%;
+    height: 78%;
+    width: 78%;
+    margin-left: 10%;
     border:black dotted 3px;
+    overflow: visible;
 
 }
 
@@ -164,6 +165,7 @@ h1{
     margin-left:7%;
 }
 .score>p{
+    font-size: 2.5vw;
     background-color: rgba(15, 54, 50,0.8);
     color: gold;
 }
@@ -196,18 +198,19 @@ h1{
 
 @media screen and (max-width:600px) {
     .innerbg{
-        font-size: 20px;
+        font-size: 5vw;
         margin-top: 36%;
     }
 
     h1{
-        margin: 20%;
-        margin-left: 28%;
+        margin-top: 3vh;
+        margin-left: 27%;
         font-size: 45px;
     }
 
     #intropg{
-        margin-top: 37%;
+        height:74%;
+        margin-top: 32%;
     }
 
     #play_but{
@@ -215,7 +218,13 @@ h1{
         width:100px;
     }
     .score{
+        font-size: 8vw;
         margin-top: 35%;
+
+    }
+
+    .score>p{
+        font-size: 8vw;
     }
 
     .game_answers>button{
