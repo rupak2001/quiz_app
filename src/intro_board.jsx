@@ -4,7 +4,7 @@ var Intro = (props) => {
     return (
         <div className="bg">
             <h1>TRIVIA   LITE</h1>
-            <div className = "innerbg">
+            <div className = "innerbg" id = "intropg">
                 <p>Please enter your name</p>
                 <input type="text" placeholder="please enter your name" id="name"></input>
                 <p>enter difficulty</p>
